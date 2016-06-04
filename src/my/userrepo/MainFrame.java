@@ -5,8 +5,18 @@
  */
 package my.userrepo;
 
+import java.io.File;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.DefaultListModel;
+import javax.swing.JFileChooser;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JList;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
@@ -16,18 +26,10 @@ public class MainFrame extends javax.swing.JFrame {
      * Creates new form UserRepoMenage
      */
     public MainFrame() {
-       this.setTitle("Baza Studentów");
-       initStudentModel();
-       initComponents();
-       this.addUserFrame = new DodajStudentaFrame(this);
-       this.wyswietlFrame = new WyswietlFrame(this);
-    }
-
-    private void initStudentModel() {
-        studentModel.addElement("Student 1");
-        studentModel.addElement("Student 2");
-        studentModel.addElement("Student 3");
-        studentModel.addElement("Student ...");
+        this.setTitle("Baza Studentów");
+        initComponents();
+        this.addUserFrame = new DodajStudentaFrame(this);
+        this.wyswietlFrame = new WyswietlFrame(this);
     }
 
     private void initComponents() {
@@ -39,8 +41,21 @@ public class MainFrame extends javax.swing.JFrame {
         studenciJList = new javax.swing.JList();
         studenciLabel = new javax.swing.JLabel();
         zamknijButton = new javax.swing.JButton();
+        openButton = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+
+        openButton.setText("Otwórz plik...");
+        openButton.setName("open"); // NOI18N
+        openButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                try {
+                    openButtonActionPerformed(evt);
+                } catch (IOException ex) {
+                    Logger.getLogger(MainFrame.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+        });
 
         daodajButton.setText("Dodaj");
         daodajButton.setName("dodaj"); // NOI18N
@@ -84,40 +99,42 @@ public class MainFrame extends javax.swing.JFrame {
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(zamknijButton, javax.swing.GroupLayout.PREFERRED_SIZE, 114, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(layout.createSequentialGroup()
+                layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createSequentialGroup()
+                        .addContainerGap()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(daodajButton, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(usunButton, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(wyszukajButton))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 77, Short.MAX_VALUE)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(studenciLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 143, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(45, 45, 45))))
+                                .addGroup(layout.createSequentialGroup()
+                                        .addComponent(zamknijButton, javax.swing.GroupLayout.PREFERRED_SIZE, 114, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                .addGroup(layout.createSequentialGroup()
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                                .addComponent(daodajButton, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                .addComponent(usunButton, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                .addComponent(wyszukajButton, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                .addComponent(openButton, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 77, Short.MAX_VALUE)
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                                .addComponent(studenciLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 143, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                        .addGap(45, 45, 45))))
         );
         layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(27, 27, 27)
-                .addComponent(studenciLabel)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 219, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(daodajButton)
+                layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createSequentialGroup()
+                        .addGap(27, 27, 27)
+                        .addComponent(studenciLabel)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(usunButton)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(wyszukajButton)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 11, Short.MAX_VALUE)
-                .addComponent(zamknijButton))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 219, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGroup(layout.createSequentialGroup()
+                                        .addComponent(daodajButton)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(usunButton)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                        .addComponent(wyszukajButton)
+                                        .addComponent(openButton)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 11, Short.MAX_VALUE)
+                        .addComponent(zamknijButton))
         );
 
         pack();
@@ -125,12 +142,18 @@ public class MainFrame extends javax.swing.JFrame {
     }
 
     private void usunButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_usunButtonActionPerformed
-  
-        JOptionPane.showMessageDialog(this, "Najpierw zaznacz studenta");
+        int index = studenciJList.getSelectedIndex();
+        if (index == -1) {
+            JOptionPane.showMessageDialog(this, "Najpierw zaznacz studenta");
+        }
+        Student student = (Student) studentModel.getElementAt(index);
+        studentModel.removeElementAt(index);
+        students.remove(student);
+        System.out.print("");
     }//GEN-LAST:event_usunButtonActionPerformed
 
     private void daodajButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_daodajButtonActionPerformed
-            this.addUserFrame.openAddUserFrame();        
+        this.addUserFrame.openAddUserFrame();
     }//GEN-LAST:event_daodajButtonActionPerformed
 
     private void wyszukajButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_wyszukajButtonActionPerformed
@@ -138,16 +161,48 @@ public class MainFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_wyszukajButtonActionPerformed
 
     private void zamknijButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_zamknijButtonActionPerformed
+        JOptionPane.showMessageDialog(this, "Baza studentów zaostanie zaouisana");
+        int returnVal = chooser.showSaveDialog(this);
+        if (returnVal == JFileChooser.APPROVE_OPTION) {
+            try {
+                menagerPlikow.saveSudents(Arrays.asList((this.studentModel.toArray())), chooser.getSelectedFile());
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
+        }
+
         System.exit(0);// TODO add your handling code here:
     }//GEN-LAST:event_zamknijButtonActionPerformed
 
+    private void openButtonActionPerformed(java.awt.event.ActionEvent evt) throws IOException {
+        int returnVal = chooser.showOpenDialog(this);
+
+        if (returnVal == JFileChooser.APPROVE_OPTION) {
+            studentFile = chooser.getSelectedFile();
+            //This is where a real application would open the file.
+        }
+        this.students = menagerPlikow.getStudents(studentFile);
+        for (Student student : students) {
+            studentModel.addElement(student);
+        }
+        studenciJList = new JList(studentModel);
+
+        System.out.println(studentFile.getAbsolutePath() + "!!!!");
+    }
+
     private void studenciJListMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_studenciJListMouseClicked
-         if (evt.getClickCount() == 2) {
-                 int index = studenciJList.locationToIndex(evt.getPoint());
-                 System.out.println("Double clicked on Item " + index);
-                 studentModel.setElementAt("edytowany student", index);
-              }
+        int index = studenciJList.locationToIndex(evt.getPoint());
+        if (evt.getClickCount() == 2) {
+            Student studentToEdit = (Student) studentModel.remove(index);
+            System.out.println("Double clicked on Item " + index);
+            this.addUserFrame.openEditUserFrame(studentToEdit, index);
+        }
+        studenciJList.setSelectedIndex(index);
     }//GEN-LAST:event_studenciJListMouseClicked
+
+    public void updateStudentList(DefaultListModel defaultListModel) {
+        studenciJList = new JList(defaultListModel);
+    }
 
     /**
      * @param args the command line arguments
@@ -184,8 +239,7 @@ public class MainFrame extends javax.swing.JFrame {
             }
         });
     }
-    
-  
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton daodajButton;
@@ -198,5 +252,10 @@ public class MainFrame extends javax.swing.JFrame {
     // End of variables declaration//GEN-END:variables
     private DodajStudentaFrame addUserFrame;
     private WyswietlFrame wyswietlFrame;
-    DefaultListModel studentModel =new DefaultListModel();
+    DefaultListModel studentModel = new DefaultListModel();
+    private javax.swing.JButton openButton;
+    private JFileChooser chooser = new JFileChooser();
+    File studentFile;
+    MenagerPlikow menagerPlikow = new MenagerPlikow();
+    List<Student> students = new ArrayList<>();
 }

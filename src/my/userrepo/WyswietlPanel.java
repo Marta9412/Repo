@@ -5,15 +5,21 @@
  */
 package my.userrepo;
 
+import java.util.ArrayList;
+import java.util.List;
+import javax.swing.DefaultListModel;
+
 public class WyswietlPanel extends javax.swing.JPanel {
 
     WyswietlFrame mainFrame;
+
     /**
      * Creates new form WyswietlPanel
      */
     public WyswietlPanel(WyswietlFrame mainFrame) {
         this.mainFrame = mainFrame;
         initComponents();
+        szukajTextField.setEnabled(false);
     }
 
     /**
@@ -32,12 +38,28 @@ public class WyswietlPanel extends javax.swing.JPanel {
         szukajTextField = new javax.swing.JTextField();
         jLabel1 = new javax.swing.JLabel();
         wyswietlButton = new javax.swing.JButton();
+        jCheckBox1 = new javax.swing.JCheckBox();
 
         wszytskoRadioButton.setText("wszystkich");
+        wszytskoRadioButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                wszytskoRadioButtonActionPerformed(evt);
+            }
+        });
 
         zaliczoneRadioButton.setText("zaliczonych");
+        zaliczoneRadioButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                zaliczoneRadioButtonActionPerformed(evt);
+            }
+        });
 
         nieZalicozneRadioButton3.setText("niezaliczone");
+        nieZalicozneRadioButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                nieZalicozneRadioButton3ActionPerformed(evt);
+            }
+        });
 
         wyswietlLabel.setText("Wyswietl:");
 
@@ -56,31 +78,44 @@ public class WyswietlPanel extends javax.swing.JPanel {
             }
         });
 
+        jCheckBox1.setText("szukaj wg.:");
+        jCheckBox1.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                istemStateChange(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(30, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(16, 16, 16)
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(wyswietlButton, javax.swing.GroupLayout.PREFERRED_SIZE, 128, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jCheckBox1)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                .addComponent(nieZalicozneRadioButton3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(zaliczoneRadioButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(wszytskoRadioButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(wyswietlLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 83, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addComponent(szukajTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 84, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel1))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 28, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(wyswietlButton, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 128, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 28, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(27, 27, 27))
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(nieZalicozneRadioButton3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(zaliczoneRadioButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(wszytskoRadioButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(wyswietlLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 83, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(21, 21, 21)
+                .addGap(20, 20, 20)
                 .addComponent(wyswietlLabel)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(wszytskoRadioButton)
@@ -88,10 +123,12 @@ public class WyswietlPanel extends javax.swing.JPanel {
                 .addComponent(zaliczoneRadioButton)
                 .addGap(7, 7, 7)
                 .addComponent(nieZalicozneRadioButton3)
-                .addGap(6, 6, 6)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jLabel1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(szukajTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(szukajTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jCheckBox1))
                 .addGap(18, 18, 18)
                 .addComponent(wyswietlButton)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
@@ -103,13 +140,112 @@ public class WyswietlPanel extends javax.swing.JPanel {
     }//GEN-LAST:event_szukajTextFieldActionPerformed
 
     private void wyswietlButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_wyswietlButtonActionPerformed
+        if (!szukajTextField.isEnabled()) {
+            if (wszytskoRadioButton.isSelected()) {
+                showAllStudents();
+            } else if (zaliczoneRadioButton.isSelected()) {
+                showZalicozne();
+            } else if (nieZalicozneRadioButton3.isSelected()) {
+                schowNieZalicozne();
+            }
+        } else {
+            showAllStudents();
+            String szukajPo = szukajTextField.getText();
+            if(!szukajPo.equals("")) {
+                for(Object studObjt : mainFrame.mainFrame.studentModel.toArray()) {
+                    Student s = (Student) studObjt;
+                    if(!s.getLastName().contains(szukajPo) && !s.getName().contains(szukajPo)) {
+                        mainFrame.mainFrame.studentModel.removeElement(s);
+                        addToRemoved(s);
+                    }
+                }
+                 mainFrame.mainFrame.updateStudentList(mainFrame.mainFrame.studentModel);
+            }
+        }
+
         mainFrame.showBackToMein();
         mainFrame.setVisible(false);
         mainFrame.dispose();
     }//GEN-LAST:event_wyswietlButtonActionPerformed
 
+    private void schowNieZalicozne() {
+        for (Object o : mainFrame.mainFrame.studentModel.toArray()) {
+            Student student = (Student) o;
+            
+            if (student.czyZaliczyl()) {
+                mainFrame.mainFrame.studentModel.removeElement(student);
+                addToRemoved(student);
+            }
+        }
+        mainFrame.mainFrame.updateStudentList(mainFrame.mainFrame.studentModel);
+    }
+
+    private void addToRemoved(Student student) {
+        if (!removedStudent.contains(student)) {
+            removedStudent.add(student);
+        }
+    }
+
+    private void showZalicozne() {
+        for (Object o : mainFrame.mainFrame.studentModel.toArray()) {
+            Student student = (Student) o;
+            
+            if (!student.czyZaliczyl()) {
+                mainFrame.mainFrame.studentModel.removeElement(student);
+                addToRemoved(student);
+            }
+        }
+        mainFrame.mainFrame.updateStudentList(mainFrame.mainFrame.studentModel);
+    }
+
+    private void showAllStudents() {
+        backAllRemoved();
+        mainFrame.mainFrame.updateStudentList(mainFrame.mainFrame.studentModel);
+    }
+
+    private void backAllRemoved() {
+        for (Student student : removedStudent) {
+            if (!mainFrame.mainFrame.studentModel.contains(student)) {
+                mainFrame.mainFrame.studentModel.addElement(student);
+            }
+        }
+    }
+
+    private void wszytskoRadioButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_wszytskoRadioButtonActionPerformed
+        wszytskoRadioButton.setSelected(true);
+        nieZalicozneRadioButton3.setSelected(false);
+        zaliczoneRadioButton.setSelected(false);
+    }//GEN-LAST:event_wszytskoRadioButtonActionPerformed
+
+    private void zaliczoneRadioButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_zaliczoneRadioButtonActionPerformed
+        wszytskoRadioButton.setSelected(false);
+        nieZalicozneRadioButton3.setSelected(false);
+        zaliczoneRadioButton.setSelected(true);
+    }//GEN-LAST:event_zaliczoneRadioButtonActionPerformed
+
+    private void nieZalicozneRadioButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_nieZalicozneRadioButton3ActionPerformed
+        wszytskoRadioButton.setSelected(false);
+        nieZalicozneRadioButton3.setSelected(true);
+        zaliczoneRadioButton.setSelected(false);
+    }//GEN-LAST:event_nieZalicozneRadioButton3ActionPerformed
+
+    private void istemStateChange(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_istemStateChange
+        if (evt.getStateChange() == evt.SELECTED) {//checkbox has been selected
+            wszytskoRadioButton.setEnabled(false);
+            nieZalicozneRadioButton3.setEnabled(false);
+            zaliczoneRadioButton.setEnabled(false);
+            szukajTextField.setEnabled(true);
+        } else {//checkbox has been deselected
+            wszytskoRadioButton.setEnabled(true);
+            nieZalicozneRadioButton3.setEnabled(true);
+            zaliczoneRadioButton.setEnabled(true);
+            szukajTextField.setEnabled(false);
+        };
+    }//GEN-LAST:event_istemStateChange
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JCheckBox jCheckBox1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JRadioButton nieZalicozneRadioButton3;
     private javax.swing.JTextField szukajTextField;
@@ -118,4 +254,5 @@ public class WyswietlPanel extends javax.swing.JPanel {
     private javax.swing.JLabel wyswietlLabel;
     private javax.swing.JRadioButton zaliczoneRadioButton;
     // End of variables declaration//GEN-END:variables
+    List<Student> removedStudent = new ArrayList<>();
 }

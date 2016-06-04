@@ -5,12 +5,15 @@
  */
 package my.userrepo;
 
+import javax.swing.JComboBox;
 import javax.swing.JFrame;
 
 public class DodajStudentaPanel extends javax.swing.JPanel {
 
-    private static final String[] OCENY = new String[] {"","2", "3","4","5"};
+    private static final String[] OCENY = new String[]{"", "2", "3", "4", "5"};
     private DodajStudentaFrame addUserFrame;
+    public int index = -1;
+
     /**
      * Creates new form AddUser
      */
@@ -21,6 +24,19 @@ public class DodajStudentaPanel extends javax.swing.JPanel {
 
     DodajStudentaPanel() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    public void cleanUp() {
+        this.imieTextField.setText("");
+        nazwiskoTextField.setText("");
+        telefonTextField.setText("");
+        adresTextField.setText("");
+        kolokwium1jComboBox.setSelectedIndex(0);
+        kolokwium2ComboBox.setSelectedIndex(0);
+        kolokwium3ComboBox.setSelectedIndex(0);
+        praktyczneComboBox.setSelectedIndex(0);
+
+        this.index = -1;
     }
 
     /**
@@ -174,6 +190,23 @@ public class DodajStudentaPanel extends javax.swing.JPanel {
     }//GEN-LAST:event_nazwiskoTextFieldActionPerformed
 
     private void zapiszButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_zapiszButtonActionPerformed
+        Student student = new Student();
+        student.setName(this.imieTextField.getText());
+        student.setLastName(this.nazwiskoTextField.getText());
+        student.setTelNumber(this.telefonTextField.getText());
+        student.setAddress(this.adresTextField.getText());
+        student.setMarkFiest(Integer.parseInt((String) this.kolokwium1jComboBox.getSelectedItem()));
+        student.setMarkSecond(Integer.parseInt((String) this.kolokwium2ComboBox.getSelectedItem()));
+        student.setMarkThird(Integer.parseInt((String) this.kolokwium3ComboBox.getSelectedItem()));
+        student.setMarkPracticl(Integer.parseInt((String) this.praktyczneComboBox.getSelectedItem()));
+        if (index != -1) {
+            addUserFrame.MainFrame.studentModel.add(index, student);
+        } else {
+            addUserFrame.MainFrame.studentModel.addElement(student);
+        }
+
+        addUserFrame.MainFrame.updateStudentList(addUserFrame.MainFrame.studentModel);
+
         addUserFrame.showBackToMein();
         addUserFrame.setVisible(false);
         addUserFrame.dispose();
@@ -199,4 +232,26 @@ public class DodajStudentaPanel extends javax.swing.JPanel {
     private javax.swing.JTextField telefonTextField;
     private javax.swing.JButton zapiszButton;
     // End of variables declaration//GEN-END:variables
+
+    void fill(Student studentToEdit, int index) {
+        this.imieTextField.setText(studentToEdit.getName());
+        nazwiskoTextField.setText(studentToEdit.getLastName());
+        telefonTextField.setText(studentToEdit.getTelNumber());
+        adresTextField.setText(studentToEdit.getAddress());
+        setSelectedValue(kolokwium1jComboBox, studentToEdit.getMarkFiest());
+
+        this.index = index;
+    }
+
+    public static void setSelectedValue(JComboBox comboBox, int value) {
+        int item;
+        for (int i = 1; i < comboBox.getItemCount(); i++) {
+            item = Integer.parseInt((String) comboBox.getItemAt(i));
+            if (value == item) {
+                comboBox.setSelectedIndex(i);
+                break;
+            }
+        }
+    }
+
 }
